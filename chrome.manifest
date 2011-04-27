@@ -1,0 +1,4 @@
+content   pli.taval.de                 chrome/content/
+skin      pli.taval.de   classic/1.0   chrome/skin/
+locale    pli.taval.de   en-US         chrome/locale/en-US/
+overlay chrome://messenger/content/messenger.xul chrome://pli.taval.de/content/pli_column_overlay.xul

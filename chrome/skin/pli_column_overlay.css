@@ -1,0 +1,40 @@
+/*
+ * Personal Level Indicator Plugin for Thunderbird
+ * Copyright (C) 2011  Tammo van Lessen
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+ 
+ #PLICol, treechildren::-moz-tree-image(PLICol)
+ {list-style-image: url("chrome://pli.taval.de/skin/pli.png") !important;}
+
+#PLICol  {
+  -moz-image-region: rect(0px 11px 16px 0px);
+  -moz-binding: url("chrome://global/content/bindings/tree.xml#treecol-image");
+  padding-left: 0px !important;
+  width: 12px;
+  max-width: 12px;}
+
+treechildren::-moz-tree-image(PLICol, pliNotSet)
+ {-moz-image-region: rect(0px 59px 16px 48px);}
+treechildren::-moz-tree-image(PLICol, pliOnly)
+ {-moz-image-region: rect(0px 35px 16px 24px);}
+treechildren::-moz-tree-image(PLICol, pliOnly, unread)
+ {-moz-image-region: rect(0px 47px 16px 36px);}
+treechildren::-moz-tree-image(PLICol, pliGroup)
+ {-moz-image-region: rect(0px 11px 16px 0px);}
+treechildren::-moz-tree-image(PLICol, pliGroup, unread)
+ {-moz-image-region: rect(0px 23px 16px 12px);}
+ 
