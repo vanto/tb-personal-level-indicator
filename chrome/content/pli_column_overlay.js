@@ -121,17 +121,10 @@ var PLIOverlay = {
 	},
 	getRowProperties: function (row, props) {},
 	getImageSrc: function (row, col) {},
-	getCellText: function (row, col) { 
-		let pli = this.calcPLI(this.getHeaderForRow(row));
-		if (pli == this.PLI_ONLY) {
-			return "\u00BB";
-		} else if (pli == this.PLI_GROUP) {
-			return "\u203A";
-		}
-	},
+	getCellText: function (row, col) {},
 	getSortStringForRow: function (hdr) {},
 	getSortLongForRow: function (hdr) {return this.calcPLI(hdr)},
-	isString: function () {return true} 
+	isString: function () {return false} 
 }
 
 PLIOverlay.init()
