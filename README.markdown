@@ -14,3 +14,4 @@ The add-on supports the following languages:
 * Bulgarian, thanks to Marin Dimitrov
 * Italian, thanks to Michele Mancioppi
 * French, thanks to Ihab El Alami
+* Swedish, thanks to Mikael Hiort af Ornäs
