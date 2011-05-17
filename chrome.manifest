@@ -5,4 +5,5 @@ locale    pli.taval.de   de            chrome/locale/de/
 locale    pli.taval.de   bg            chrome/locale/bg/
 locale    pli.taval.de   it            chrome/locale/it/
 locale    pli.taval.de   fr            chrome/locale/fr/
+locale    pli.taval.de   sv-SE         chrome/locale/sv-SE/
 overlay chrome://messenger/content/messenger.xul chrome://pli.taval.de/content/pli_column_overlay.xul
