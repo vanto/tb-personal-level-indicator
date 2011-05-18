@@ -15,3 +15,4 @@ The add-on supports the following languages:
 * Italian, thanks to Michele Mancioppi
 * French, thanks to Ihab El Alami
 * Swedish, thanks to Mikael Hiort af Ornäs
+* Spanish, thanks to Carlos Pedrinaci

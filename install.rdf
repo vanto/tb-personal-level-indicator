@@ -63,12 +63,22 @@
       </Description>
     </em:localized>
 
-	<em:localized>
+    <em:localized>
       <Description>
         <em:locale>sv-SE</em:locale>
         <em:name>Personlig nivå-indikatorer</em:name>
         <em:description>Visar indikatorer som visar om ett meddelande är adresserat endast till dig (&#xbb;), en grupp (&#x203a;) eller en e-postlista.</em:description>
         <em:translator>Mikael Hiort af Ornäs</em:translator>
+        <em:creator>Tammo van Lessen</em:creator>
+      </Description>
+    </em:localized>
+
+    <em:localized>
+      <Description>
+        <em:locale>es</em:locale>
+        <em:name>Indicador Personal</em:name>
+        <em:description>Muestra una flecha doble (&#xbb;) junto a los mensajes enviados únicamente a tu dirección de correo, una flecha (&#x203a;) junto a los mensajes enviados a un grupo de personas, y ningún símbolo junto a los mensajes enviados a una lista de correo.</em:description>
+        <em:translator>Carlos Pedrinaci</em:translator>
         <em:creator>Tammo van Lessen</em:creator>
       </Description>
     </em:localized>
