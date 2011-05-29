@@ -16,3 +16,11 @@ The add-on supports the following languages:
 * French, thanks to Ihab El Alami
 * Swedish, thanks to Mikael Hiort af Ornäs
 * Spanish, thanks to Carlos Pedrinaci
+
+Changelog
+---------
+* v0.1 -- Initial release
+* v0.2 -- Language support for de, bg, it and fr added.
+* v0.3 -- Bug fix release (arrows were shown twice)
+* v0.4 -- Language support for sv and es added.
+* v0.5 -- Bug fix release (#3: email address matching was case sensitive)
