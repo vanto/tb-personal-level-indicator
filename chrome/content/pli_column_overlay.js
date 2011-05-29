@@ -50,7 +50,7 @@ var PLIOverlay = {
 
 			for(var identCount = 0; identCount < account.identities.Count(); identCount++) {
 				var identity = account.identities.QueryElementAt(identCount, Components.interfaces.nsIMsgIdentity);
-				this._identities.push(identity.email);
+				this._identities.push(identity.email.toLowerCase());
 			}
 		}
 	
@@ -72,7 +72,7 @@ var PLIOverlay = {
 		const emails = new Array;
 		const count = this.headerParser.parseHeadersWithArray(data, addrs, names, fulls);
 		for (var i = 0; i < count; i++) {
-			emails.push(addrs.value[i]);
+			emails.push(addrs.value[i].toLowerCase());
 		}
 		return emails;
 	},
