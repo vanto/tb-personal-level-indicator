@@ -26,41 +26,28 @@ var PLIOverlay = {
 	
 	init: function () {
 		this.initialized = true;
-		
+
 		// fetch header parser
 		this.headerParser = Components.classes["@mozilla.org/messenger/headerparser;1"].getService(Components.interfaces.nsIMsgHeaderParser);
-		
-		// create atoms for column styling
-		this._atom = []
-		with (Components.classes["@mozilla.org/atom-service;1"].getService(Components.interfaces.nsIAtomService)) {
-			this._atom[this.PLI_NOT_SET] = getAtom("pliNotSet");
-			this._atom[this.PLI_ONLY] = getAtom("pliOnly");
-			this._atom[this.PLI_GROUP] = getAtom("pliGroup");
-		}
-		
+
 		// register observer
-		Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService).addObserver(this, "MsgCreateDBView", false)
+		Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService).addObserver(this, "MsgCreateDBView", false);
 	},
-	
+
 	loadIdentities: function () {
 		// load and cache all identities from all accounts
 		this._identities = [];
-		
-		let accounts = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager).accounts;
-		for (var i = 0; i < accounts.Count(); i++) {
-			var account = accounts.QueryElementAt(i, Components.interfaces.nsIMsgAccount);
 
-			for(var identCount = 0; identCount < account.identities.Count(); identCount++) {
-				var identity = account.identities.QueryElementAt(identCount, Components.interfaces.nsIMsgIdentity);
-				this._identities.push(identity.email.toLowerCase());
-			}
+        let ids = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager).allIdentities;
+		for(var i = 0; i < ids.length; i++) {
+			var id = ids.queryElementAt(i, Components.interfaces.nsIMsgIdentity);
+			this._identities.push(id.email.toLowerCase());
 		}
-	
 	},
 
 	observe: function (subject, topic, data) {
-	    this.loadIdentities();
-		gDBView.addColumnHandler("PLICol", this)
+        this.loadIdentities();
+		gDBView.addColumnHandler("PLICol", this);
 	},
 
 	extractRecipients: function (hdr, row) {
@@ -70,15 +57,15 @@ var PLIOverlay = {
 	},
 
 	parseAddresses: function (data) {
-		const addrs = new Object; const names = new Object; const fulls = new Object;
-		const emails = new Array;
+		const addrs = {}; const names = {}; const fulls = {};
+		const emails = [];
 		const count = this.headerParser.parseHeadersWithArray(data, addrs, names, fulls);
 		for (var i = 0; i < count; i++) {
 			emails.push(addrs.value[i].toLowerCase());
 		}
 		return emails;
 	},
-	
+
 	getHeaderForRow: function (row) {
 		let key = gDBView.getKeyAt(row);
 		return gDBView.getFolderForViewIndex(row).GetMessageHeader(key);
@@ -90,17 +77,17 @@ var PLIOverlay = {
 		// get a list of own identities
 		let ids = this._identities;
 		// copy list of recipients and remove myself (all identities)
-		let allButMe = all.filter(function(e) { return ids.indexOf(e) < 0 })
+		let allButMe = all.filter(function(e) { return ids.indexOf(e) < 0; });
 		// copy list of recipients and remove all but myself (all identities)
-		let meInAll = all.filter(function(e) { return ids.indexOf(e) >= 0 })
+		let meInAll = all.filter(function(e) { return ids.indexOf(e) >= 0; });
 
 		if (meInAll.length > 0) {
 			// I'm in the list of the recipients
 			if (allButMe.length > 0) {
-			    // ...together with others
+				// ...together with others
 				return this.PLI_GROUP;
 			} else {
-			    // ...only me
+				// ...only me
 				return this.PLI_ONLY;
 			}
 		} else {
@@ -112,21 +99,21 @@ var PLIOverlay = {
 
 	// nsIMsgCustomColumnHandler methods
 	getCellProperties: function (row, col, props) {
-			let pli = this.calcPLI(this.getHeaderForRow(row));
+		let pli = this.calcPLI(this.getHeaderForRow(row));
 		if (pli == this.PLI_NOT_SET) {
-			props.AppendElement(this._atom[this.PLI_NOT_SET]);
+			return "pliNotSet";
 		} else if (pli == this.PLI_ONLY) {
-			props.AppendElement(this._atom[this.PLI_ONLY]);
+			return "pliOnly";
 		} else if (pli == this.PLI_GROUP) {
-			props.AppendElement(this._atom[this.PLI_GROUP]);
+			return "pliGroup";
 		}
 	},
 	getRowProperties: function (row, props) {},
 	getImageSrc: function (row, col) {},
 	getCellText: function (row, col) {},
 	getSortStringForRow: function (hdr) {},
-	getSortLongForRow: function (hdr) {return this.calcPLI(hdr)},
-	isString: function () {return false} 
-}
+	getSortLongForRow: function (hdr) { return this.calcPLI(hdr); },
+	isString: function () { return false; }
+};
 
-PLIOverlay.init()
+PLIOverlay.init();
