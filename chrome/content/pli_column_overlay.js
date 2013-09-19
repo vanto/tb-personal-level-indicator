@@ -21,99 +21,99 @@
 
 var PLIOverlay = {
     PLI_NOT_SET: 0,
-	PLI_ONLY: 1,
-	PLI_GROUP: 2,
-	
-	init: function () {
-		this.initialized = true;
+    PLI_ONLY: 1,
+    PLI_GROUP: 2,
+    
+    init: function () {
+        this.initialized = true;
 
-		// fetch header parser
-		this.headerParser = Components.classes["@mozilla.org/messenger/headerparser;1"].getService(Components.interfaces.nsIMsgHeaderParser);
+        // fetch header parser
+        this.headerParser = Components.classes["@mozilla.org/messenger/headerparser;1"].getService(Components.interfaces.nsIMsgHeaderParser);
 
-		// register observer
-		Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService).addObserver(this, "MsgCreateDBView", false);
-	},
+        // register observer
+        Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService).addObserver(this, "MsgCreateDBView", false);
+    },
 
-	loadIdentities: function () {
-		// load and cache all identities from all accounts
-		this._identities = [];
+    loadIdentities: function () {
+        // load and cache all identities from all accounts
+        this._identities = [];
 
         let ids = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager).allIdentities;
-		for(var i = 0; i < ids.length; i++) {
-			var id = ids.queryElementAt(i, Components.interfaces.nsIMsgIdentity);
-			this._identities.push(id.email.toLowerCase());
-		}
-	},
+        for(var i = 0; i < ids.length; i++) {
+            var id = ids.queryElementAt(i, Components.interfaces.nsIMsgIdentity);
+            this._identities.push(id.email.toLowerCase());
+        }
+    },
 
-	observe: function (subject, topic, data) {
+    observe: function (subject, topic, data) {
         this.loadIdentities();
-		gDBView.addColumnHandler("PLICol", this);
-	},
+        gDBView.addColumnHandler("PLICol", this);
+    },
 
-	extractRecipients: function (hdr, row) {
-		let to = this.parseAddresses(hdr.mime2DecodedRecipients);
-		let cc = this.parseAddresses(hdr.ccList);
-		return to.concat(cc);
-	},
+    extractRecipients: function (hdr, row) {
+        let to = this.parseAddresses(hdr.mime2DecodedRecipients);
+        let cc = this.parseAddresses(hdr.ccList);
+        return to.concat(cc);
+    },
 
-	parseAddresses: function (data) {
-		const addrs = {}; const names = {}; const fulls = {};
-		const emails = [];
-		const count = this.headerParser.parseHeadersWithArray(data, addrs, names, fulls);
-		for (var i = 0; i < count; i++) {
-			emails.push(addrs.value[i].toLowerCase());
-		}
-		return emails;
-	},
+    parseAddresses: function (data) {
+        const addrs = {}; const names = {}; const fulls = {};
+        const emails = [];
+        const count = this.headerParser.parseHeadersWithArray(data, addrs, names, fulls);
+        for (var i = 0; i < count; i++) {
+            emails.push(addrs.value[i].toLowerCase());
+        }
+        return emails;
+    },
 
-	getHeaderForRow: function (row) {
-		let key = gDBView.getKeyAt(row);
-		return gDBView.getFolderForViewIndex(row).GetMessageHeader(key);
-	},
+    getHeaderForRow: function (row) {
+        let key = gDBView.getKeyAt(row);
+        return gDBView.getFolderForViewIndex(row).GetMessageHeader(key);
+    },
 
-	calcPLI: function (hdr) {
-		// get a list of all recipients
-		let all = this.extractRecipients(hdr);
-		// get a list of own identities
-		let ids = this._identities;
-		// copy list of recipients and remove myself (all identities)
-		let allButMe = all.filter(function(e) { return ids.indexOf(e) < 0; });
-		// copy list of recipients and remove all but myself (all identities)
-		let meInAll = all.filter(function(e) { return ids.indexOf(e) >= 0; });
+    calcPLI: function (hdr) {
+        // get a list of all recipients
+        let all = this.extractRecipients(hdr);
+        // get a list of own identities
+        let ids = this._identities;
+        // copy list of recipients and remove myself (all identities)
+        let allButMe = all.filter(function(e) { return ids.indexOf(e) < 0; });
+        // copy list of recipients and remove all but myself (all identities)
+        let meInAll = all.filter(function(e) { return ids.indexOf(e) >= 0; });
 
-		if (meInAll.length > 0) {
-			// I'm in the list of the recipients
-			if (allButMe.length > 0) {
-				// ...together with others
-				return this.PLI_GROUP;
-			} else {
-				// ...only me
-				return this.PLI_ONLY;
-			}
-		} else {
-			// I'm not in the list of recipients
-			return this.PLI_NOT_SET;
-		}
-	},
-	
+        if (meInAll.length > 0) {
+            // I'm in the list of the recipients
+            if (allButMe.length > 0) {
+                // ...together with others
+                return this.PLI_GROUP;
+            } else {
+                // ...only me
+                return this.PLI_ONLY;
+            }
+        } else {
+            // I'm not in the list of recipients
+            return this.PLI_NOT_SET;
+        }
+    },
+    
 
-	// nsIMsgCustomColumnHandler methods
-	getCellProperties: function (row, col, props) {
-		let pli = this.calcPLI(this.getHeaderForRow(row));
-		if (pli == this.PLI_NOT_SET) {
-			return "pliNotSet";
-		} else if (pli == this.PLI_ONLY) {
-			return "pliOnly";
-		} else if (pli == this.PLI_GROUP) {
-			return "pliGroup";
-		}
-	},
-	getRowProperties: function (row, props) {},
-	getImageSrc: function (row, col) {},
-	getCellText: function (row, col) {},
-	getSortStringForRow: function (hdr) {},
-	getSortLongForRow: function (hdr) { return this.calcPLI(hdr); },
-	isString: function () { return false; }
+    // nsIMsgCustomColumnHandler methods
+    getCellProperties: function (row, col, props) {
+        let pli = this.calcPLI(this.getHeaderForRow(row));
+        if (pli == this.PLI_NOT_SET) {
+            return "pliNotSet";
+        } else if (pli == this.PLI_ONLY) {
+            return "pliOnly";
+        } else if (pli == this.PLI_GROUP) {
+            return "pliGroup";
+        }
+    },
+    getRowProperties: function (row, props) {},
+    getImageSrc: function (row, col) {},
+    getCellText: function (row, col) {},
+    getSortStringForRow: function (hdr) {},
+    getSortLongForRow: function (hdr) { return this.calcPLI(hdr); },
+    isString: function () { return false; }
 };
 
 PLIOverlay.init();
