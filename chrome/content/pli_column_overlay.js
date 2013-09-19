@@ -37,11 +37,14 @@ var PLIOverlay = {
     loadIdentities: function () {
         // load and cache all identities from all accounts
         this._identities = [];
+       let accounts = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager).accounts;
+       for (var i = 0; i < accounts.length; i++) {
+           var account = accounts.queryElementAt(i, Components.interfaces.nsIMsgAccount);
 
-        let ids = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager).allIdentities;
-        for(var i = 0; i < ids.length; i++) {
-            var id = ids.queryElementAt(i, Components.interfaces.nsIMsgIdentity);
-            this._identities.push(id.email.toLowerCase());
+           for(var identCount = 0; identCount < account.identities.length; identCount++) {
+               var identity = account.identities.queryElementAt(identCount, Components.interfaces.nsIMsgIdentity);
+               this._identities.push(identity.email.toLowerCase());
+           }
         }
     },
 
@@ -98,7 +101,7 @@ var PLIOverlay = {
     
 
     // nsIMsgCustomColumnHandler methods
-    getCellProperties: function (row, col, props) {
+    getCellProperties: function (row, col) {
         let pli = this.calcPLI(this.getHeaderForRow(row));
         if (pli == this.PLI_NOT_SET) {
             return "pliNotSet";
@@ -106,9 +109,11 @@ var PLIOverlay = {
             return "pliOnly";
         } else if (pli == this.PLI_GROUP) {
             return "pliGroup";
+        } else {
+            return "";
         }
     },
-    getRowProperties: function (row, props) {},
+    getRowProperties: function (row) { return ""; },
     getImageSrc: function (row, col) {},
     getCellText: function (row, col) {},
     getSortStringForRow: function (hdr) {},
