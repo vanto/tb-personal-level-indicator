@@ -24,3 +24,4 @@ Changelog
 * v0.3 -- Bug fix release (arrows were shown twice)
 * v0.4 -- Language support for sv and es added.
 * v0.5 -- Bug fix release (#3: email address matching was case sensitive)
+* v0.6 -- Bug fix release (#7: PLI shows wrong indicators in Thunderbird 24)
