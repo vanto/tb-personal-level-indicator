@@ -35,7 +35,7 @@ var PLIOverlay = {
 
         // load preferences
         this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("personallevelindicator.");
-        this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+        this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch);
         this.prefs.addObserver("", this, false);
         this.mode = this.prefs.getCharPref("mode");
     },
