@@ -27,14 +27,26 @@
   width: 12px;
   max-width: 12px;}
 
-treechildren::-moz-tree-image(PLICol, pliNotSet)
- {-moz-image-region: rect(0px 59px 16px 48px);}
-treechildren::-moz-tree-image(PLICol, pliOnly)
+treechildren::-moz-tree-image(PLICol, pliNotSet-gmail)
+ {-moz-image-region: rect(0px 83px 16px 72px);}
+treechildren::-moz-tree-image(PLICol, pliOnly-gmail)
  {-moz-image-region: rect(0px 35px 16px 24px);}
-treechildren::-moz-tree-image(PLICol, pliOnly, unread)
+treechildren::-moz-tree-image(PLICol, pliOnly-gmail, unread)
  {-moz-image-region: rect(0px 47px 16px 36px);}
-treechildren::-moz-tree-image(PLICol, pliGroup)
+treechildren::-moz-tree-image(PLICol, pliGroup-gmail)
  {-moz-image-region: rect(0px 11px 16px 0px);}
-treechildren::-moz-tree-image(PLICol, pliGroup, unread)
+treechildren::-moz-tree-image(PLICol, pliGroup-gmail, unread)
  {-moz-image-region: rect(0px 23px 16px 12px);}
- 
+
+treechildren::-moz-tree-image(PLICol, pliGroup-triple)
+ {-moz-image-region: rect(0px 59px 16px 48px);}
+treechildren::-moz-tree-image(PLICol, pliGroup-triple, unread)
+ {-moz-image-region: rect(0px 71px 16px 60px);}
+treechildren::-moz-tree-image(PLICol, pliNotSet-triple)
+ {-moz-image-region: rect(0px 35px 16px 24px);}
+treechildren::-moz-tree-image(PLICol, pliNotSet-triple, unread)
+ {-moz-image-region: rect(0px 47px 16px 36px);}
+treechildren::-moz-tree-image(PLICol, pliOnly-triple)
+ {-moz-image-region: rect(0px 11px 16px 0px);}
+treechildren::-moz-tree-image(PLICol, pliOnly-triple, unread)
+ {-moz-image-region: rect(0px 23px 16px 12px);}

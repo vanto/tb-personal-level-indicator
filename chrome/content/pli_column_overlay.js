@@ -32,6 +32,12 @@ var PLIOverlay = {
 
         // register observer
         Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService).addObserver(this, "MsgCreateDBView", false);
+
+        // load preferences
+        this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("personallevelindicator.");
+        this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+        this.prefs.addObserver("", this, false);
+        this.mode = this.prefs.getCharPref("mode");
     },
 
     loadIdentities: function () {
@@ -49,8 +55,12 @@ var PLIOverlay = {
     },
 
     observe: function (subject, topic, data) {
-        this.loadIdentities();
-        gDBView.addColumnHandler("PLICol", this);
+        if (topic == "nsPref:changed") {
+            this.mode = this.prefs.getCharPref("mode");
+        } else {
+            this.loadIdentities();
+            gDBView.addColumnHandler("PLICol", this);
+        }
     },
 
     extractRecipients: function (hdr, row) {
@@ -104,11 +114,11 @@ var PLIOverlay = {
     getCellProperties: function (row, col) {
         let pli = this.calcPLI(this.getHeaderForRow(row));
         if (pli == this.PLI_NOT_SET) {
-            return "pliNotSet";
+            return "pliNotSet-" + this.mode;
         } else if (pli == this.PLI_ONLY) {
-            return "pliOnly";
+            return "pliOnly-" + this.mode;
         } else if (pli == this.PLI_GROUP) {
-            return "pliGroup";
+            return "pliGroup-" + this.mode;
         } else {
             return "";
         }

@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+/*
  * Personal Level Indicator Plugin for Thunderbird
  * Copyright (C) 2013 Tammo van Lessen
  * 
@@ -16,19 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
--->
-<?xml-stylesheet href='chrome://pli.taval.de/skin/pli_column_overlay.css' type='text/css'?>
-<!DOCTYPE window SYSTEM "chrome://pli.taval.de/locale/pli_column_overlay.dtd">
-<overlay id="plicolovl"
-         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script type="application/x-javascript" src="chrome://pli.taval.de/content/pli_column_overlay.js"/>
-  <tree id="threadTree">
-    <treecols id="threadCols">
-    <splitter class="tree-splitter" />
-    <treecol id="PLICol" insertbefore="subjectCol" fixed="true" 
-           flex="2" hidden="false"
-		   class="treecol-image"
-           label="&pli.taval.de.colLabel;" tooltiptext="&pli.taval.de.colTooltip;" />
-    </treecols>
-  </tree>
-</overlay>
+*/
+
+pref("personallevelindicator.mode", "gmail");

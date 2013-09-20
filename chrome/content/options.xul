@@ -17,18 +17,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 -->
-<?xml-stylesheet href='chrome://pli.taval.de/skin/pli_column_overlay.css' type='text/css'?>
-<!DOCTYPE window SYSTEM "chrome://pli.taval.de/locale/pli_column_overlay.dtd">
-<overlay id="plicolovl"
-         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script type="application/x-javascript" src="chrome://pli.taval.de/content/pli_column_overlay.js"/>
-  <tree id="threadTree">
-    <treecols id="threadCols">
-    <splitter class="tree-splitter" />
-    <treecol id="PLICol" insertbefore="subjectCol" fixed="true" 
-           flex="2" hidden="false"
-		   class="treecol-image"
-           label="&pli.taval.de.colLabel;" tooltiptext="&pli.taval.de.colTooltip;" />
-    </treecols>
-  </tree>
-</overlay>
+
+<!DOCTYPE plioptions SYSTEM "chrome://pli.taval.de/locale/pli_options.dtd">
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <setting pref="personallevelindicator.mode" type="radio" title="Presentation Mode">
+      <radiogroup>
+        <radio value="gmail" label="GMail Style"/>
+        <radio value="triple" label="Triple Style"/>
+      </radiogroup>
+    </setting>
+</vbox>
