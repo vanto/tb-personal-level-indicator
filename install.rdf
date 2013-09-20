@@ -5,7 +5,7 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>personal-level-indicators@taval.de</em:id>
     <em:name>Personal Level Indicators</em:name>
-    <em:version>0.7</em:version>
+    <em:version>0.8</em:version>
     <em:description>Shows an indicator so you can tell if an email was addressed only to you (&#xbb;), a group (&#x203a;), or a mailing list.</em:description>
     <em:creator>Tammo van Lessen</em:creator>
     <em:homepageURL>https://github.com/vanto/tb-personal-level-indicator</em:homepageURL>
