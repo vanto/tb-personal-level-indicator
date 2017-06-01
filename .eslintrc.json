@@ -1,0 +1,54 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-const-assign": "warn",
+        "no-this-before-super": "warn",
+        "no-undef": "warn",
+        "no-unreachable": "warn",
+        "no-unused-vars": ["error", {"vars": "all", "args": "none"}],
+        "constructor-super": "warn",
+        "valid-typeof": "warn"
+    },
+    "globals": {
+        "atob": true,
+        "btoa": true,
+        "Components": true,
+        "CSSRule": true,
+        "clearInterval": true,
+        "clearTimeout": true,
+        "console": true,
+        "CSS": true,
+        "DocumentFragment": true,
+        "DOMParser": true,
+        "dump": true,
+        "Element": true,
+        "exports": true,
+        "gDBView": true,
+        "isWorker": true,
+        "indexedDB": true,
+        "loader": true,
+        "module": true,
+        "Node": true,
+        "reportError": true,
+        "require": true,
+        "setInterval": true,
+        "setTimeout": true,
+        "uneval": true,
+        "TextDecoder": true,
+        "TextEncoder": true,
+        "URL": true,
+        "WebSocket": true,
+        "XMLHttpRequest": true
+    }
+}

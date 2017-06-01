@@ -26,3 +26,4 @@ Changelog
 * v0.5 -- Bug fix release (#3: email address matching was case sensitive)
 * v0.6 -- Bug fix release (#7: PLI shows wrong indicators in Thunderbird 24)
 * v0.7 -- New Feature: Indicator style is now configurable. Besides the "Gmail style" there also the "triple style", which shows a single arrow (›) if a message is sent only to you, a double arrow (») if it is sent to a group and a triple arrow if it is sent to a mailing list.
+* v0.8 -- More robustness, addon will now notice changes in indentities and does not require a restart anymore. Also the default settings are properly initialized when the plugin is installed.

@@ -23,7 +23,7 @@ var PLIOverlay = {
     PLI_NOT_SET: 0,
     PLI_ONLY: 1,
     PLI_GROUP: 2,
-    
+
     init: function () {
         this.initialized = true;
 
@@ -33,31 +33,44 @@ var PLIOverlay = {
         // register observer
         Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService).addObserver(this, "MsgCreateDBView", false);
 
-        // load preferences
+        // load addon preferences
         this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("personallevelindicator.");
         this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch);
         this.prefs.addObserver("", this, false);
         this.mode = this.prefs.getCharPref("mode");
+
+        // observe accounts
+        this.accountPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("mail.identity.");
+        this.accountPrefs.QueryInterface(Components.interfaces.nsIPrefBranch);
+        this.accountPrefs.addObserver("", this, false);
+
     },
 
     loadIdentities: function () {
         // load and cache all identities from all accounts
         this._identities = [];
-       let accounts = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager).accounts;
-       for (var i = 0; i < accounts.length; i++) {
-           var account = accounts.queryElementAt(i, Components.interfaces.nsIMsgAccount);
+        let accounts = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager).accounts;
+        for (var i = 0; i < accounts.length; i++) {
+            var account = accounts.queryElementAt(i, Components.interfaces.nsIMsgAccount);
 
-           for(var identCount = 0; identCount < account.identities.length; identCount++) {
-               var identity = account.identities.queryElementAt(identCount, Components.interfaces.nsIMsgIdentity);
-               this._identities.push(identity.email.toLowerCase());
-           }
+            for(var identCount = 0; identCount < account.identities.length; identCount++) {
+                var identity = account.identities.queryElementAt(identCount, Components.interfaces.nsIMsgIdentity);
+                this._identities.push(identity.email.toLowerCase());
+            }
         }
     },
 
     observe: function (subject, topic, data) {
         if (topic == "nsPref:changed") {
-            this.mode = this.prefs.getCharPref("mode");
+            if (subject.root.match(/identity/)) {
+                // indentities changed -> reload
+                this.loadIdentities();
+            } else if (subject.root.match(/personallevelindicator/)) {
+                // settings changed
+                this.mode = this.prefs.getCharPref("mode");
+            }
         } else {
+            // Mail view initialized -> register column handler
             this.loadIdentities();
             gDBView.addColumnHandler("PLICol", this);
         }
