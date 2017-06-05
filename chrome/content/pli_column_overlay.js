@@ -1,17 +1,17 @@
 /*
  * Personal Level Indicator Plugin for Thunderbird
  * Copyright (C) 2011  Tammo van Lessen
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -96,6 +96,20 @@ var PLIOverlay = {
         let key = gDBView.getKeyAt(row);
         return gDBView.getFolderForViewIndex(row).GetMessageHeader(key);
     },
+    // http://stackoverflow.com/a/12228895/1677077
+    regexIndexOf: function (array, ident, startpos) {
+        regex = new RegExp('^'+ident.split('@')[0].split('+')[0]+'([A-z0-9-.+]?)@'+ident.split('@')[1]+'$','gi');
+        if(!startpos) {
+            startpos = 0;
+        }
+        len = array.length;
+        for(x = startpos; x < len; x++){
+            if(typeof array[x] != 'undefined' && (''+array[x]).match(regex)){
+                return x;
+            }
+        }
+        return -1;
+    },
 
     calcPLI: function (hdr) {
         // get a list of all recipients
@@ -103,9 +117,15 @@ var PLIOverlay = {
         // get a list of own identities
         let ids = this._identities;
         // copy list of recipients and remove myself (all identities)
-        let allButMe = all.filter(function(e) { return ids.indexOf(e) < 0; });
+        //let allButMe = all.filter(function(e) { return ids.indexOf(e) < 0; });
+        let allButMe = all.filter(function(e){
+            return PLIOverlay.regexIndexOf(ids,e) < 0;
+        });
         // copy list of recipients and remove all but myself (all identities)
-        let meInAll = all.filter(function(e) { return ids.indexOf(e) >= 0; });
+        //let meInAll = all.filter(function(e) { return ids.indexOf(e) >= 0; });
+        let meInAll = all.filter(function(e){
+            return PLIOverlay.regexIndexOf(ids,e) >= 0;
+        });
 
         if (meInAll.length > 0) {
             // I'm in the list of the recipients
@@ -121,7 +141,7 @@ var PLIOverlay = {
             return this.PLI_NOT_SET;
         }
     },
-    
+
 
     // nsIMsgCustomColumnHandler methods
     getCellProperties: function (row, col) {
