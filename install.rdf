@@ -5,7 +5,7 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>personal-level-indicators@taval.de</em:id>
     <em:name>Personal Level Indicators</em:name>
-    <em:version>0.9</em:version>
+    <em:version>0.10</em:version>
     <em:description>Shows an indicator so you can tell if an email was addressed only to you (&#xbb;), a group (&#x203a;), or a mailing list.</em:description>
     <em:creator>Tammo van Lessen</em:creator>
     <em:contributor>Piotr Orzechowski</em:contributor>
@@ -14,8 +14,8 @@
     <em:type>2</em:type>
     <em:optionsURL>chrome://pli.taval.de/content/options.xul</em:optionsURL>
     <em:optionsType>2</em:optionsType>
-    <!-- Target Application this theme can install into, 
-        with minimum and maximum supported versions. --> 
+    <!-- Target Application this theme can install into,
+        with minimum and maximum supported versions. -->
     <!-- Thunderbird -->
 	<em:targetApplication>
       <Description>
