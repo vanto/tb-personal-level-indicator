@@ -1,17 +1,17 @@
 /*
  * Personal Level Indicator Plugin for Thunderbird
  * Copyright (C) 2011  Tammo van Lessen
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -23,6 +23,7 @@ var PLIOverlay = {
     PLI_NOT_SET: 0,
     PLI_ONLY: 1,
     PLI_GROUP: 2,
+    PLI_CHAR_MODE: "gmailchars",
 
     init: function () {
         this.initialized = true;
@@ -121,24 +122,41 @@ var PLIOverlay = {
             return this.PLI_NOT_SET;
         }
     },
-    
+
 
     // nsIMsgCustomColumnHandler methods
     getCellProperties: function (row, col) {
-        let pli = this.calcPLI(this.getHeaderForRow(row));
-        if (pli == this.PLI_NOT_SET) {
-            return "pliNotSet-" + this.mode;
-        } else if (pli == this.PLI_ONLY) {
-            return "pliOnly-" + this.mode;
-        } else if (pli == this.PLI_GROUP) {
-            return "pliGroup-" + this.mode;
+        if (this.mode == this.PLI_CHAR_MODE) {
+          return "pliChars";
         } else {
-            return "";
+            let pli = this.calcPLI(this.getHeaderForRow(row));
+            if (pli == this.PLI_NOT_SET) {
+                return "pliNotSet-" + this.mode;
+            } else if (pli == this.PLI_ONLY) {
+                return "pliOnly-" + this.mode;
+            } else if (pli == this.PLI_GROUP) {
+                return "pliGroup-" + this.mode;
+            } else {
+                return "";
+            }
         }
     },
     getRowProperties: function (row) { return ""; },
-    getImageSrc: function (row, col) {},
-    getCellText: function (row, col) {},
+    getImageSrc: function (row, col) { },
+    getCellText: function (row, col) {
+        if (this.mode == this.PLI_CHAR_MODE) {
+            let pli = this.calcPLI(this.getHeaderForRow(row));
+            if (pli == this.PLI_NOT_SET) {
+                return "";
+            } else if (pli == this.PLI_ONLY) {
+                return "»";
+            } else if (pli == this.PLI_GROUP) {
+                return "›";
+            } else {
+                return "-";
+            }
+        }
+    },
     getSortStringForRow: function (hdr) {},
     getSortLongForRow: function (hdr) { return this.calcPLI(hdr); },
     isString: function () { return false; }
